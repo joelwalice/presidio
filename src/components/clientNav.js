@@ -21,6 +21,9 @@ const Page = () => {
     const signOut = () => {
         Cookies.remove('isloggedIn');
         Cookies.remove('token');
+        Cookies.remove('email');
+        Cookies.remove('role');
+        Cookies.remove('name');
         window.location.href = '/login';
     };
     return (
@@ -89,7 +92,7 @@ const Page = () => {
                 </Link>
                 <nav>
                     <ul className="flex flex-col p-2 text-gray-500 font-semibold">
-                        <Link href="/admin">
+                        <Link href="/users">
                             <li className="text-md flex cursor-pointer items-center gap-2 p-2 hover:text-green-800">
                                 <div>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
@@ -98,16 +101,7 @@ const Page = () => {
                                 </div>Dashboard
                             </li>
                         </Link>
-                        <Link href="/admin/products">
-                            <li className="text-md flex cursor-pointer items-center gap-2 p-2 hover:text-green-800">
-                                <div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                        <path d="M2 3a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H2Z" />
-                                        <path fill-rule="evenodd" d="M2 7.5h16l-.811 7.71a2 2 0 0 1-1.99 1.79H4.802a2 2 0 0 1-1.99-1.79L2 7.5ZM7 11a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2H8a1 1 0 0 1-1-1Z" clip-rule="evenodd" />
-                                    </svg>
-                                </div>Products
-                            </li>
-                        </Link>
+                        
                     </ul>
                 </nav>
             </div>

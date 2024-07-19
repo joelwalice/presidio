@@ -10,6 +10,12 @@ const Page = () => {
     const [total, setTotal] = useState(0);
 
     useEffect(() => {
+        if (!Cookies.get('token')) {
+            window.location.href = '/login';
+        }
+        if (Cookies.get('role') !== "Admin") {
+            window.location.href = "/login";
+        }
         const getData = async () => {
             const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/products`);
             if (response.status === 200) {
@@ -18,12 +24,7 @@ const Page = () => {
                 console.log("Error fetching data:", response.status);
             }
         }
-        if (!Cookies.get('token')) {
-            window.location.href = '/login';
-        }
-        if (!Cookies.get('role') === "Admin") {
-            window.location.href = `/${Cookies.get('role')}`;
-        }
+        
         if (Cookies.get('name')) {
             setName(Cookies.get('name'));
         }
@@ -39,7 +40,7 @@ const Page = () => {
                     </div>
                     <div className='p-4 flex items-center justify-between gap-4'>
                         <div className='w-1/3 bg-green-200 shadow-lg duration-500 hover:scale-105 hover:shadow-xl rounded-lg p-4 text-green-700'>
-                            <Link href="/home/inventory"><div className='relative'>
+                            <Link href="/admin/products"><div className='relative'>
                                 <h1 className='absolute right-4 top-0 text-green-700 font-semibold'>See more {'>'}</h1>
                                 <div className='flex flex-col m-2 p-2'>
                                     <div className='bg-green-700 flex items-center w-[45px] rounded-lg p-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="white" class="w-7 h-7">
@@ -55,7 +56,7 @@ const Page = () => {
                         </div>
 
                         <div className='w-1/3 bg-orange-200 shadow-lg duration-500 hover:scale-105 hover:shadow-xl rounded-lg p-4 text-orange-700'>
-                            <Link href="/home/inventory"><div className='relative'>
+                            <Link href="/admin/products"><div className='relative'>
                                 <h1 className='absolute right-4 top-0 text-orange-700 font-semibold'>See more {'>'}</h1>
                                 <div className='flex flex-col m-2 p-2'>
                                     <div className='bg-orange-700 flex items-center w-[45px] rounded-lg p-2'>
@@ -72,7 +73,7 @@ const Page = () => {
                             </Link>
                         </div>
                         <div className='w-1/3 bg-red-200 shadow-lg duration-500 hover:shadow-xl cursor-pointer hover:scale-105 rounded-lg p-4 text-red-700'>
-                            <Link href="/home/inventory"><div className='relative'>
+                            <Link href="/admin/products"><div className='relative'>
                                 <h1 className='absolute right-4 top-0 text-red-700 font-semibold'>See more {'>'}</h1>
                                 <div className='flex flex-col m-2 p-2'>
                                     <div className='bg-red-700 flex items-center w-[45px] rounded-lg p-2'>

@@ -16,7 +16,7 @@ const Login = () => {
                 window.location.href = "/admin";
             }
             if (Cookies.get("role") === "User") {
-                window.location.href = "/user";
+                window.location.href = "/users";
             }
         }
     }, [])

@@ -21,6 +21,9 @@ const Page = () => {
     const signOut = () => {
         Cookies.remove('isloggedIn');
         Cookies.remove('token');
+        Cookies.remove('email');
+        Cookies.remove('role');
+        Cookies.remove('name');
         window.location.href = '/login';
     };
     return (

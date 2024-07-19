@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import Navbar from '../../components/Navbar';
+import Navbar from '../../components/clientNav';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
@@ -10,8 +10,13 @@ const Page = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Fetch product data including current order status
     useEffect(() => {
+        if (!Cookies.get('token')) {
+            window.location.href = "/login";
+        }
+        if (Cookies.get('role') !== "User") {
+            window.location.href = "/login";
+        }
         const fetchData = async () => {
             try {
                 const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/products`);
@@ -27,33 +32,20 @@ const Page = () => {
                 setLoading(false);
             }
         };
-
-        if (!Cookies.get('token')) {
-            window.location.href = '/login';
-            return;
-        }
-
-        if (Cookies.get('role') !== "User") {
-            window.location.href = Cookies.get('role') === "Admin" ? `/admin` : "/login";
-            return;
-        }
-
-        if (Cookies.get('name')) {
-            setName(Cookies.get('name'));
-        }
-
         fetchData();
     }, []);
 
-    const handleClick = async (sku) => {
+    const handleClick = async (sku,newStatus) => {
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/products/status`, { sku });
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/products/statusChange`, { sku, newStatus });
             if (response.status === 200) {
-                setProducts(products.map(product =>
-                    product.sku === sku ? { ...product, status: 'Ordered' } : product
-                ));
+                const updatedProducts = products.map(product =>
+                    product.sku === sku ? { ...product, status: newStatus } : product
+                );
+                setProducts(updatedProducts);
             } else {
-                console.error("Error updating order status:", response.status);
+                console.error('Failed to update product status');
+
             }
         } catch (err) {
             console.error("Error updating order status:", err);
@@ -82,8 +74,10 @@ const Page = () => {
                                     <p>Category: {item.category}</p>
                                     <p>SKU: {item.sku}</p>
                                     <button
-                                        onClick={() => handleClick(item.sku)}
+                                        onClick={() => handleClick(item.sku, Ordered)}
                                         disabled={item.status !== "Not Ordered"}
+                                        className={`p-2 rounded-md text-white ${item.status === 'Ordered' ? 'bg-green-700' : 'bg-gray-700'
+                                            }`}
                                     >
                                         {item.status === 'Not Ordered' ? 'Order Now' : `${item.status}`}
                                     </button>
