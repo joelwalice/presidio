@@ -5,7 +5,7 @@ import Cookies from 'js-cookie'
 import Link from 'next/link'
 import axios from 'axios'
 
-const page = () => {
+const Page = () => {
     const [name, setName] = useState("Admin");
     const [total, setTotal] = useState(0);
 
@@ -97,4 +97,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page

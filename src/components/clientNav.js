@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Cookies from 'js-cookie';
 
-const page = () => {
+const Page = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     useEffect(() => {
@@ -116,4 +116,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page
